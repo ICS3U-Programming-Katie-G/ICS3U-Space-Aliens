@@ -8,6 +8,7 @@
 import stage
 import ugame
 
+
 # this is where all the game environment will be kept.
 def game_scene():
     # the image bank for the background and sprites
