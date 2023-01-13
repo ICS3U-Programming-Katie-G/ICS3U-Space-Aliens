@@ -16,6 +16,18 @@ def game_scene():
     image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")
     image_bank_sprites = stage.Bank.from_bmp16("space_aliens.bmp")
 
+    # buttons that we are going to check to see what state they are in
+    a_button = constants.button_state["button_up"]
+    b_button = constants.button_state["button_up"]
+    start_button = constants.button_state["button_up"]
+    select_button = constants.button_state["button_up"]
+
+    # loading in the song and getting it all ready :)
+    meow_sound = open("meow_sound.wav", 'rb')
+    sound = ugame.audio
+    sound.stop()
+    sound.mute(False)
+
     # creates a grid that the background exists in.
     background = stage.Grid(image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
 
@@ -41,20 +53,30 @@ def game_scene():
         # getting user input.
         keys = ugame.buttons.get_pressed()
 
-        # X is a constant that represents A.
-        if keys & ugame.K_X:
-            print("A")
+        # the a button
+        if keys & ugame.K_X != 0:
+            # this will allow the a button to fire through a series of checks.
+            if a_button == constants.button_state["button_up"]:
+                a_button = constants.button_state["button_just_pressed"]
+            elif a_button == constants.button_state["button_just_pressed"]:
+                a_button = constants.button_state["button_still_pressed"]
+        else:
+            if a_button == constants.button_state["button_still_pressed"]:
+                a_button = constants.button_state["button_released"]
+            else:
+                a_button = constants.button_state["button_up"]
 
-        # O is a constant that represents B.
-        if keys & ugame.K_O:
-            print("B")
+        # the b button
+        if keys & ugame.K_O != 0:
+            # passing because we don't need it right now (for the future though)
+            pass
 
         # the start button.
-        if keys & ugame.K_START:
+        if keys & ugame.K_START != 0:
             print("Start")
 
         # the select button.
-        if keys & ugame.K_SELECT:
+        if keys & ugame.K_SELECT != 0:
             print("Select")
 
         # the right button on the d-pad.
@@ -87,7 +109,9 @@ def game_scene():
             # don't want character moving up or down, so pass
             pass
 
-        # will be updating game logic
+        # the logic of the game, controls when the sound plays
+        if a_button == constants.button_state["button_just_pressed"]:
+            sound.play(meow_sound)
 
         # redrawing / updating sprites
         game.render_sprites([jon] + [lasagna])
