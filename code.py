@@ -23,11 +23,16 @@ def game_scene():
     # this locks the sprite's y position at the near-bottom of the screen.
     jon = stage.Sprite(image_bank_sprites, 4, 75, constants.SCREEN_Y - (constants.ADDED_BOTTOM + constants.SPRITE_SIZE))
 
+    # this is the sprite of the enemy in the game: lasagna
+    lasagna = stage.Sprite(image_bank_sprites, 9,
+                    int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
+                    18)
+
     # actually displaying the game
     game = stage.Stage(ugame.display, constants.FPS)
 
-    # the two different layers of the game
-    game.layers = [jon] + [background]
+    # the two different layers of the game - background and sprites
+    game.layers = [jon] + [lasagna] + [background]
 
     # rendering the background
     game.render_block()
@@ -85,7 +90,7 @@ def game_scene():
         # will be updating game logic
 
         # redrawing / updating sprites
-        game.render_sprites([jon])
+        game.render_sprites([jon] + [lasagna])
         game.tick()
 
 

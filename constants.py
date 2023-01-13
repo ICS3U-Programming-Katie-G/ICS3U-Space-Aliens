@@ -16,3 +16,13 @@ SPRITE_MOVEMENT_SPEED = 1
 # this is the value we're adding to the bottom of the sprite margin,
 # just so I can add a little more
 ADDED_BOTTOM = 8
+
+# dictionary with all the constants required for anything to do with button states.
+# this is important because we want the sound to function right - we only want to play the sound
+# when the button has just been pressed.
+button_state = {
+    "button_up": "up",
+    "button_just_pressed" : "just pressed",
+    "button_still_pressed" : "still pressed",
+    "button_released" : "released"
+}
