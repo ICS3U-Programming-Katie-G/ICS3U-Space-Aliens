@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Created by: Katie Green
 # Created: January 2023
 # this is the wonderful jon's joyful jog video game :)
@@ -9,6 +7,9 @@ import stage
 import ugame
 
 
+# importing the constants file so we can use it in here.
+import constants
+
 # this is where all the game environment will be kept.
 def game_scene():
     # the image bank for the background and sprites
@@ -16,13 +17,14 @@ def game_scene():
     image_bank_sprites = stage.Bank.from_bmp16("space_aliens.bmp")
 
     # creates a grid that the background exists in.
-    background = stage.Grid(image_bank_background, 10, 8)
+    background = stage.Grid(image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
 
     # this is the sprite of jon, who is the playable character
-    jon = stage.Sprite(image_bank_sprites, 4, 75, 66)
+    # this locks the sprite's y position at the near-bottom of the screen.
+    jon = stage.Sprite(image_bank_sprites, 4, 75, constants.SCREEN_Y - (constants.ADDED_BOTTOM + constants.SPRITE_SIZE))
 
     # actually displaying the game
-    game = stage.Stage(ugame.display, 60)
+    game = stage.Stage(ugame.display, constants.FPS)
 
     # the two different layers of the game
     game.layers = [jon] + [background]
@@ -52,23 +54,33 @@ def game_scene():
 
         # the right button on the d-pad.
         if keys & ugame.K_RIGHT:
-            # moves one pixel right, leaves y as is.
-            jon.move(jon.x + 1, jon.y)
+            # check to make sure it's not going off screen
+            if jon.x <= constants.SCREEN_X - constants.SPRITE_SIZE:
+                # moves one pixel right, leaves y as is.
+                jon.move(jon.x + 1, jon.y)
+            else:
+                # if the x position is greater than screen limit, moves back to screen limit.
+                jon.move(constants.SCREEN_X - constants.SPRITE_SIZE, jon.y)
 
         # the left button on the d-pad.
         if keys & ugame.K_LEFT:
-            # moves one pixel left, leaves y as is.
-            jon.move(jon.x - 1, jon.y)
+            # check to make sure it's not going off screen
+            if jon.x >= 0:
+                # moves one pixel left, leaves y as is.
+                jon.move(jon.x - 1, jon.y)
+            else:
+                # if the x position is less than 0, then moves jon back to 0.
+                jon.move(0, jon.y)
 
         # the up button on the d-pad
         if keys & ugame.K_UP:
-            # moves one pixel up, leaves x as is.
-            jon.move(jon.x, jon.y - 1)
+            # we don't want the character to move up or down, so we pass.
+            pass
 
         # the down button on the d-pad.
         if keys & ugame.K_DOWN:
-            # moves one pixel down, leaves y as is.
-            jon.move(jon.x, jon.y + 1)
+            # don't want character moving up or down, so pass
+            pass
 
         # will be updating game logic
 

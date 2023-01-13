@@ -13,3 +13,6 @@ SPRITE_SIZE = 16
 # the frames per second is 60, and the sprites move 1 pixel each time they move.
 FPS = 60
 SPRITE_MOVEMENT_SPEED = 1
+# this is the value we're adding to the bottom of the sprite margin,
+# just so I can add a little more
+ADDED_BOTTOM = 8
