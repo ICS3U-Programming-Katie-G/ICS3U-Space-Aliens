@@ -2,13 +2,13 @@
 # Created: January 2023
 # this is the wonderful jon's joyful jog video game :)
 
+# importing the constants file so we can use it in here.
+import constants
+
 # importing some libraries to help build our game.
 import stage
 import ugame
 
-
-# importing the constants file so we can use it in here.
-import constants
 
 # this is the menu scene
 def menu_scene():
