@@ -10,6 +10,67 @@ import ugame
 # importing the constants file so we can use it in here.
 import constants
 
+# this is the menu scene
+def menu_scene():
+    # the image bank for the background and sprites
+    image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")
+
+    # adding text objects
+    text = []
+    
+    # this allows us to actually print out the text
+    text1 = stage.Text(width=29, height=12, font=None, palette=constants.RED_PALETTE, buffer=None)
+
+    # this is where the text will appear
+    text1.move(20, 10)
+
+    # this is what text will show up. hank anderson game studios :)
+    text1.text("Hank Anderson\nGame Studios:\n\nJon's Joyful\nJog!")
+
+    # adding to end of list.
+    text.append(text1)
+
+    # this is the secondary text, to tell the user to press start!
+    text2 = stage.Text(width=29, height=12, font=None, palette=constants.RED_PALETTE, buffer=None)
+
+    # this positions the text
+    text2.move(20, 100)
+
+    # press start text!
+    text2.text("PRESS START!\nDO IT! PRESS!\n")
+
+    # append the text to the list
+    text.append(text2)
+
+    # this will set the background to image 0 in our image bank,
+    # and it will make the size 16x16, tiles of 10x8.
+    background = stage.Grid(image_bank_background, 10, 8)
+
+
+    # creates a grid that the background exists in.
+    background = stage.Grid(image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
+    
+    # actually displaying the game
+    game = stage.Stage(ugame.display, constants.FPS)
+
+    # the two different layers of the game - background and sprites.
+    # contains the text for the menu scene overtop the background.
+    game.layers = text + [background]
+
+    # rendering the background
+    game.render_block()
+
+    while True:
+        # getting user input.
+        keys = ugame.buttons.get_pressed()
+
+        # the start button.
+        if keys & ugame.K_START != 0:
+            game_scene()
+
+        # redrawing
+        game.tick()
+
 # this is where all the game environment will be kept.
 def game_scene():
     # the image bank for the background and sprites
@@ -73,11 +134,13 @@ def game_scene():
 
         # the start button.
         if keys & ugame.K_START != 0:
-            print("Start")
+            # yass
+            pass
 
         # the select button.
         if keys & ugame.K_SELECT != 0:
-            print("Select")
+            # yass
+            pass
 
         # the right button on the d-pad.
         if keys & ugame.K_RIGHT:
@@ -119,4 +182,4 @@ def game_scene():
 
 
 if __name__ == "__main__":
-    game_scene()
+    menu_scene()
