@@ -2,8 +2,8 @@
 # Created: January 2023
 # this is the wonderful jon's joyful jog video game :)
 
-import time
 import random
+import time
 
 # importing the constants file so we can use it in here.
 import constants
