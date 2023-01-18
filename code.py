@@ -2,16 +2,14 @@
 # Created: January 2023
 # this is the wonderful jon's joyful jog video game :)
 
-import random
-import time
-
 # importing the constants file so we can use it in here.
 import constants
 
 # importing some libraries to help build our game.
 import stage
 import ugame
-
+import time
+import random
 
 # this is the splash scene
 def splash_scene():
@@ -21,7 +19,7 @@ def splash_scene():
     bass_sound = open("bass_sound.wav", "rb")
     sound = ugame.audio
     sound.stop()
-    sound.mute[False]
+    sound.mute(False)
     sound.play(bass_sound)
 
     # the image bank for the background and sprites
@@ -35,7 +33,7 @@ def splash_scene():
     background = stage.Grid(
         image_bank_mt_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
-    # used this program to split the image into tile:
+    # used this program to split the image into tile: 
     # https://ezgif.com/sprite-cutter/ezgif-5-818cdbcc3f66.png
     background.tile(2, 2, 0)  # blank white
     background.tile(3, 2, 1)
@@ -126,7 +124,7 @@ def menu_scene():
     background = stage.Grid(
         image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
-
+    
     # actually displaying the game
     game = stage.Stage(ugame.display, constants.FPS)
 
@@ -151,6 +149,13 @@ def menu_scene():
 
 # this is where all the game environment will be kept.
 def game_scene():
+    # the function to place our lasagna at the top of the screen
+    def show_lasagna():
+        for lasagna_number in range(len(lasagnas)):
+            if lasagnas[lasagna_number].x < 0:
+                lasagnas[lasagna_number].move(random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_X - constants.SPRITE_SIZE), constants.OFF_TOP_SCREEN)
+                break
+
     # the image bank for the background and sprites
     image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")
     image_bank_sprites = stage.Bank.from_bmp16("space_aliens.bmp")
@@ -175,7 +180,7 @@ def game_scene():
     # random tiles for the background woooo!!!
     for x_location in range(constants.SCREEN_GRID_X):
         for y_location in range(constants.SCREEN_GRID_Y):
-            tile_picked = random.randint(1, 3)
+            tile_picked = random.randint(1,3)
             background.tile(x_location, y_location, tile_picked)
 
     # this is the sprite of jon, who is the playable character
@@ -188,18 +193,36 @@ def game_scene():
     )
 
     # this is the sprite of the enemy in the game: lasagna
-    lasagna = stage.Sprite(
-        image_bank_sprites,
-        9,
-        int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
-        18,
-    )
+    lasagnas = []
+    for lasagna_number in range(constants.TOTAL_NUMBER_OF_LASAGNA):
+        a_single_lasagna = stage.Sprite(
+            image_bank_sprites,
+            9,
+            int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
+            18,
+        )
+        # add the lasagna to the list of lasagna's
+        lasagnas.append(a_single_lasagna)
+    
+    # placing our lasagna at the top of the screen
+    show_lasagna()
+
+    # create a nice list for when we launch garfield like catapult :)
+    garfields = []
+    for garfield_number in range(constants.TOTAL_NUMBER_OF_GARFIELD):
+        a_single_garfield = stage.Sprite(
+            image_bank_sprites, 10,
+            constants.OFF_SCREEN_X,
+            constants.OFF_SCREEN_Y,
+        )
+        # adds each new single garfield to the list of garfields.
+        garfields.append(a_single_garfield)
 
     # actually displaying the game
     game = stage.Stage(ugame.display, constants.FPS)
 
     # the two different layers of the game - background and sprites
-    game.layers = [jon] + [lasagna] + [background]
+    game.layers = garfields + [jon] + lasagnas + [background]
 
     # rendering the background
     game.render_block()
@@ -268,12 +291,32 @@ def game_scene():
 
         # the logic of the game, controls when the sound plays
         if a_button == constants.button_state["button_just_pressed"]:
-            sound.play(meow_sound)
+            # throw garfield but only if there are still garfields left to be thrown
+            for garfield_number in range(len(garfields)):
+                if garfields[garfield_number].x < 0:
+                    garfields[garfield_number].move(jon.x, jon.y)
+                    sound.play(meow_sound)
+                    break
+
+        # move garfield for each frame he's on the screen
+        for garfield_number in range(len(garfields)):
+            if garfields[garfield_number].x > 0:
+                garfields[garfield_number].move(garfields[garfield_number].x, garfields[garfield_number].y - constants.GARFIELD_SPEED)
+                if garfields[garfield_number].y < constants.OFF_TOP_SCREEN:
+                    garfields[garfield_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+
+        # move the lasagna down the screen
+        for lasagna_number in range(len(lasagnas)):
+            if lasagnas[lasagna_number].x > 0:
+                lasagnas[lasagna_number].move(lasagnas[lasagna_number].x, lasagnas[lasagna_number].y + constants.LASAGNA_SPEED)
+                if lasagnas[lasagna_number].y > constants.SCREEN_Y:
+                    lasagnas[lasagna_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    show_lasagna()
 
         # redrawing / updating sprites
-        game.render_sprites([jon] + [lasagna])
+        game.render_sprites(garfields + [jon] + lasagnas)
         game.tick()
 
 
 if __name__ == "__main__":
-    menu_scene()
+    splash_scene()
