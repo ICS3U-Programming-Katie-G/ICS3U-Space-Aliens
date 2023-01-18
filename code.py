@@ -106,7 +106,7 @@ def game_scene():
         image_bank_sprites,
         4,
         75,
-        constants.SCREEN_Y - (constants.ADDED_BOTTOM + constants.SPRITE_SIZE)
+        constants.SCREEN_Y - (constants.ADDED_BOTTOM + constants.SPRITE_SIZE),
     )
 
     # this is the sprite of the enemy in the game: lasagna
@@ -114,7 +114,7 @@ def game_scene():
         image_bank_sprites,
         9,
         int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
-        18
+        18,
     )
 
     # actually displaying the game
