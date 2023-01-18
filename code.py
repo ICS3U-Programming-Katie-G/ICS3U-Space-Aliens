@@ -2,14 +2,16 @@
 # Created: January 2023
 # this is the wonderful jon's joyful jog video game :)
 
+import time
+import random
+
 # importing the constants file so we can use it in here.
 import constants
 
 # importing some libraries to help build our game.
 import stage
 import ugame
-import time
-import random
+
 
 # this is the splash scene
 def splash_scene():
@@ -33,7 +35,7 @@ def splash_scene():
     background = stage.Grid(
         image_bank_mt_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
-    # used this program to split the image into tile: 
+    # used this program to split the image into tile:
     # https://ezgif.com/sprite-cutter/ezgif-5-818cdbcc3f66.png
     background.tile(2, 2, 0)  # blank white
     background.tile(3, 2, 1)
@@ -124,7 +126,7 @@ def menu_scene():
     background = stage.Grid(
         image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
-    
+
     # actually displaying the game
     game = stage.Stage(ugame.display, constants.FPS)
 
@@ -172,8 +174,8 @@ def game_scene():
 
     # random tiles for the background woooo!!!
     for x_location in range(constants.SCREEN_GRID_X):
-        for y_location in range(constants.SCREEN_GRID_Y)
-            tile_picked = random.randint(1,3)
+        for y_location in range(constants.SCREEN_GRID_Y):
+            tile_picked = random.randint(1, 3)
             background.tile(x_location, y_location, tile_picked)
 
     # this is the sprite of jon, who is the playable character
