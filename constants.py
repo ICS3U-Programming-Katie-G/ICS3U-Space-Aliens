@@ -22,11 +22,13 @@ ADDED_BOTTOM = 8
 # when the button has just been pressed.
 button_state = {
     "button_up": "up",
-    "button_just_pressed" : "just pressed",
-    "button_still_pressed" : "still pressed",
-    "button_released" : "released"
+    "button_just_pressed": "just pressed",
+    "button_still_pressed": "still pressed",
+    "button_released": "released"
 }
 
 # nice new shiny pallet for red filled text :)
-RED_PALETTE = (b'\xff\xff\x00\x22\xcey\x22\xff\xff\xff\xff\xff\xff\xff\xff\xff'
-                b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff')
+RED_PALETTE = (
+        b"\xff\xff\x00\x22\xcey\x22\xff\xff\xff\xff\xff\xff\xff\xff\xff"
+        b"\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff"
+)

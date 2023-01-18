@@ -20,7 +20,7 @@ def menu_scene():
 
     # this allows us to actually print out the text
     text1 = stage.Text(
-            width=29, height=12, font=None, palette=constants.RED_PALETTE, buffer=None
+        width=29, height=12, font=None, palette=constants.RED_PALETTE, buffer=None
     )
 
     # this is where the text will appear
@@ -34,7 +34,7 @@ def menu_scene():
 
     # this is the secondary text, to tell the user to press start!
     text2 = stage.Text(
-            width=29, height=12, font=None, palette=constants.RED_PALETTE, buffer=None
+        width=29, height=12, font=None, palette=constants.RED_PALETTE, buffer=None
     )
 
     # this positions the text
@@ -51,7 +51,9 @@ def menu_scene():
     background = stage.Grid(image_bank_background, 10, 8)
 
     # creates a grid that the background exists in.
-    background = stage.Grid(image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
+    background = stage.Grid(
+        image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+    )
     
     # actually displaying the game
     game = stage.Stage(ugame.display, constants.FPS)
@@ -95,24 +97,24 @@ def game_scene():
 
     # creates a grid that the background exists in.
     background = stage.Grid(
-            image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+        image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
 
     # this is the sprite of jon, who is the playable character
     # this locks the sprite's y position at the near-bottom of the screen.
     jon = stage.Sprite(
-            image_bank_sprites,
-            4,
-            75,
-            constants.SCREEN_Y - (constants.ADDED_BOTTOM + constants.SPRITE_SIZE)
+        image_bank_sprites,
+        4,
+        75,
+        constants.SCREEN_Y - (constants.ADDED_BOTTOM + constants.SPRITE_SIZE)
     )
 
     # this is the sprite of the enemy in the game: lasagna
     lasagna = stage.Sprite(
-            image_bank_sprites,
-            9,
-            int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
-            18
+        image_bank_sprites,
+        9,
+        int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
+        18
     )
 
     # actually displaying the game
