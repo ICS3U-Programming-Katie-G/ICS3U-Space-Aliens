@@ -12,6 +12,7 @@ import constants
 import stage
 import ugame
 
+
 # this is the splash scene
 def splash_scene():
 
@@ -34,7 +35,7 @@ def splash_scene():
     background = stage.Grid(
         image_bank_mt_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
-    # used this program to split the image into tile: 
+    # used this program to split the image into tile:
     # https://ezgif.com/sprite-cutter/ezgif-5-818cdbcc3f66.png
     background.tile(2, 2, 0)  # blank white
     background.tile(3, 2, 1)
@@ -125,7 +126,7 @@ def menu_scene():
     background = stage.Grid(
         image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
-    
+
     # actually displaying the game
     game = stage.Stage(ugame.display, constants.FPS)
 
@@ -154,7 +155,13 @@ def game_scene():
     def show_lasagna():
         for lasagna_number in range(len(lasagnas)):
             if lasagnas[lasagna_number].x < 0:
-                lasagnas[lasagna_number].move(random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_X - constants.SPRITE_SIZE), constants.OFF_TOP_SCREEN)
+                lasagnas[lasagna_number].move(
+                    random.randint(
+                        0 + constants.SPRITE_SIZE,
+                        constants.SCREEN_X - constants.SPRITE_SIZE,
+                    ),
+                    constants.OFF_TOP_SCREEN,
+                )
                 break
 
     # the image bank for the background and sprites
@@ -181,7 +188,7 @@ def game_scene():
     # random tiles for the background woooo!!!
     for x_location in range(constants.SCREEN_GRID_X):
         for y_location in range(constants.SCREEN_GRID_Y):
-            tile_picked = random.randint(1,3)
+            tile_picked = random.randint(1, 3)
             background.tile(x_location, y_location, tile_picked)
 
     # this is the sprite of jon, who is the playable character
@@ -204,7 +211,7 @@ def game_scene():
         )
         # add the lasagna to the list of lasagna's
         lasagnas.append(a_single_lasagna)
-    
+
     # placing our lasagna at the top of the screen
     show_lasagna()
 
@@ -212,7 +219,8 @@ def game_scene():
     garfields = []
     for garfield_number in range(constants.TOTAL_NUMBER_OF_GARFIELD):
         a_single_garfield = stage.Sprite(
-            image_bank_sprites, 10,
+            image_bank_sprites,
+            10,
             constants.OFF_SCREEN_X,
             constants.OFF_SCREEN_Y,
         )
@@ -302,16 +310,26 @@ def game_scene():
         # move garfield for each frame he's on the screen
         for garfield_number in range(len(garfields)):
             if garfields[garfield_number].x > 0:
-                garfields[garfield_number].move(garfields[garfield_number].x, garfields[garfield_number].y - constants.GARFIELD_SPEED)
+                garfields[garfield_number].move(
+                    garfields[garfield_number].x,
+                    garfields[garfield_number].y - constants.GARFIELD_SPEED,
+                )
                 if garfields[garfield_number].y < constants.OFF_TOP_SCREEN:
-                    garfields[garfield_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    garfields[garfield_number].move(
+                        constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+                    )
 
         # move the lasagna down the screen
         for lasagna_number in range(len(lasagnas)):
             if lasagnas[lasagna_number].x > 0:
-                lasagnas[lasagna_number].move(lasagnas[lasagna_number].x, lasagnas[lasagna_number].y + constants.LASAGNA_SPEED)
+                lasagnas[lasagna_number].move(
+                    lasagnas[lasagna_number].x,
+                    lasagnas[lasagna_number].y + constants.LASAGNA_SPEED,
+                )
                 if lasagnas[lasagna_number].y > constants.SCREEN_Y:
-                    lasagnas[lasagna_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    lasagnas[lasagna_number].move(
+                        constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+                    )
                     show_lasagna()
 
         # redrawing / updating sprites
