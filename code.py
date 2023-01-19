@@ -2,14 +2,15 @@
 # Created: January 2023
 # this is the wonderful jon's joyful jog video game :)
 
+import random
+import time
+
 # importing the constants file so we can use it in here.
 import constants
 
 # importing some libraries to help build our game.
 import stage
 import ugame
-import time
-import random
 
 # this is the splash scene
 def splash_scene():
