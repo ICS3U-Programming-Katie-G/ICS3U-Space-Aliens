@@ -10,8 +10,8 @@ import constants
 
 # importing some libraries to help build our game.
 import stage
-import ugame
 import supervisor
+import ugame
 
 # this is the splash scene
 def splash_scene():
@@ -43,21 +43,18 @@ def splash_scene():
     background.tile(5, 2, 3)
     background.tile(6, 2, 4)
     background.tile(7, 2, 0)  # blank white
-
     background.tile(2, 3, 0)  # blank white
     background.tile(3, 3, 5)
     background.tile(4, 3, 6)
     background.tile(5, 3, 7)
     background.tile(6, 3, 8)
     background.tile(7, 3, 0)  # blank white
-
     background.tile(2, 4, 0)  # blank white
     background.tile(3, 4, 9)
     background.tile(4, 4, 10)
     background.tile(5, 4, 11)
     background.tile(6, 4, 12)
     background.tile(7, 4, 0)  # blank white
-
     background.tile(2, 5, 0)  # blank white
     background.tile(3, 5, 0)
     background.tile(4, 5, 13)
@@ -152,22 +149,22 @@ def menu_scene():
 # this is where all the game environment will be kept.
 def game_scene():
 
-    # the function to place our lasagna at the top of the screen
-    def show_lasagna():
-        for lasagna_number in range(len(lasagnas)):
-            if lasagnas[lasagna_number].x < 0:
-                lasagnas[lasagna_number].move(random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_X - constants.SPRITE_SIZE), constants.OFF_TOP_SCREEN)
-                break
-
     # score
     score = 0
 
     # some score text to allow it to show up
     score_text = stage.Text(width=29, height=14)
     score_text.clear()
-    score_text.cursor(1,1)
-    score_text.move(0,0)
-    score_text.text("Score: {0}".format(score))
+    score_text.cursor(0, 0)
+    score_text.move(1, 1)
+    score_text.text("Score = {0}".format(score))
+
+    # the function to place our lasagna at the top of the screen
+    def show_lasagna():
+        for lasagna_number in range(len(lasagnas)):
+            if lasagnas[lasagna_number].x < 0:
+                lasagnas[lasagna_number].move(random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_X - constants.SPRITE_SIZE), constants.OFF_TOP_SCREEN)
+                break
 
     # the image bank for the background and sprites
     image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")
@@ -327,13 +324,13 @@ def game_scene():
                 if lasagnas[lasagna_number].y > constants.SCREEN_Y:
                     lasagnas[lasagna_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                     show_lasagna()
-                    score = score - 1
+                    score -= 1
                     if score < 0:
                         score = 0
                     score_text.clear()
-                    score_text.cursor(0,0)
-                    score_text.move(1,1)
-                    score_text.text("Score: {0}".format(score))
+                    score_text.cursor(0, 0)
+                    score_text.move(1, 1)
+                    score_text.text("Score = {0}".format(score))
 
         # collision and score checking
         for garfield_number in range(len(garfields)):
@@ -341,23 +338,31 @@ def game_scene():
                 for lasagna_number in range(len(lasagnas)):
                     if lasagnas[lasagna_number].x > 0:
                         if stage.collide(
-                            garfields[garfield_number].x + 4, garfields[garfield_number].y + 2,
-                            garfields[garfield_number].x + 11, garfields[garfield_number].y + 12,
-                            lasagnas[lasagna_number].x + 4, lasagnas[lasagna_number].y + 3,
-                            lasagnas[lasagna_number].x + 13, lasagnas[lasagna_number].y + 14,
+                            garfields[garfield_number].x + 6,
+                            garfields[garfield_number].y + 2,
+                            garfields[garfield_number].x + 12,
+                            garfields[garfield_number].y + 1,
+                            lasagnas[lasagna_number].x + 1,
+                            lasagnas[lasagna_number].y,
+                            lasagnas[lasagna_number].x + 16,
+                            lasagnas[lasagna_number].y + 16,
                         ):
                             # the lasagna has been hit
-                            lasagnas[lasagna_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                            garfields[garfield_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                            lasagnas[lasagna_number].move(
+                                constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+                            )
+                            garfields[garfield_number].move(
+                                constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+                            )
                             sound.stop()
                             sound.play(eating_sound)
                             show_lasagna()
                             show_lasagna()
                             score = score + 1
                             score_text.clear()
-                            score_text.cursor()
-                            score_text.move(1,1)
-                            score_text.text("Score: {0}".format(score))
+                            score_text.cursor(0, 0)
+                            score_text.move(1, 1)
+                            score_text.text("Score = {0}".format(score))
 
         # check to see if any lasagnas are touching Jon
         for lasagna_number in range(len(lasagnas)):
@@ -368,15 +373,16 @@ def game_scene():
                         jon.x, jon.y,
                         jon.x + 15, jon.y + 15
                     ):
-                    # jon has been hit :(
-                    sound.stop()
-                    sound.play(screaming_sound)
-                    time.sleep(3.0)
-                    game_over_scene(score)
+                        # jon has been hit :(
+                        sound.stop()
+                        sound.play(screaming_sound)
+                        time.sleep(3.0)
+                        game_over_scene(score)
 
         # redrawing / updating sprites
         game.render_sprites(garfields + [jon] + lasagnas)
         game.tick()
+
 
 # this function is the final scene
 # happens when the lasagna collides with jon
@@ -390,17 +396,17 @@ def game_over_scene(final_score):
     # text objects to tell the user they've died
     text = []
     text1 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None)
-    text1.move(22, 20)
-    text1.text("Your Final Score was {:0>2d}".format(final_score))
+    text1.move(8, 20)
+    text1.text("Your Final Score\nwas {:0>2d}".format(final_score))
     text.append(text1)
 
     text2 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None)
-    text2.move(43, 60)
+    text2.move(8, 60)
     text2.text("Game Over\n Thanks for playing!")
     text.append(text2)
 
     text3 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None)
-    text3.move(32, 110)
+    text3.move(8, 110)
     text3.text("Press Select. Do it.\nNow.")
     text.append(text3)
 
@@ -423,7 +429,6 @@ def game_over_scene(final_score):
         
         # game logic, telling how often to refresh
         game.tick()
-
 
 
 if __name__ == "__main__":
