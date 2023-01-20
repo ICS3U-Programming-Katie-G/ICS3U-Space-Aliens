@@ -169,9 +169,10 @@ def game_scene():
             if lasagnas[lasagna_number].x < 0:
                 lasagnas[lasagna_number].move(
                     random.randint(
-                        0 + constants.SPRITE_SIZE, constants.SCREEN_X - constants.SPRITE_SIZE
+                        0 + constants.SPRITE_SIZE,
+                        constants.SCREEN_X - constants.SPRITE_SIZE
                     ), 
-                    constants.OFF_TOP_SCREEN
+                    constants.OFF_TOP_SCREEN,
                 )
                 break
 
@@ -195,7 +196,7 @@ def game_scene():
 
     # creates a grid that the background exists in.
     background = stage.Grid(
-        image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+        image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y,
     )
 
     # random tiles for the background woooo!!!
@@ -388,12 +389,12 @@ def game_scene():
         for lasagna_number in range(len(lasagnas)):
             if lasagnas[lasagna_number].x > 0:
                 if stage.collide(
-                        lasagnas[lasagna_number].x + 4,
-                        lasagnas[lasagna_number].y + 2,
-                        lasagnas[lasagna_number].x + 13,
-                        lasagnas[lasagna_number].y + 12,
-                        jon.x, jon.y,
-                        jon.x + 15, jon.y + 15
+                    lasagnas[lasagna_number].x + 4,
+                    lasagnas[lasagna_number].y + 2,
+                    lasagnas[lasagna_number].x + 13,
+                    lasagnas[lasagna_number].y + 12,
+                    jon.x, jon.y,
+                    jon.x + 15, jon.y + 15
                 ):
                     # jon has been hit :(
                     sound.stop()
@@ -456,7 +457,7 @@ def game_over_scene(final_score):
         # check to see the select button
         if keys & ugame.K_SELECT != 0:
             supervisor.reload()
-        
+
         # game logic, telling how often to refresh
         game.tick()
 
