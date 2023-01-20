@@ -170,7 +170,7 @@ def game_scene():
                 lasagnas[lasagna_number].move(
                     random.randint(
                         0 + constants.SPRITE_SIZE,
-                        constants.SCREEN_X - constants.SPRITE_SIZE
+                        constants.SCREEN_X - constants.SPRITE_SIZE,
                     ), 
                     constants.OFF_TOP_SCREEN,
                 )
@@ -196,7 +196,9 @@ def game_scene():
 
     # creates a grid that the background exists in.
     background = stage.Grid(
-        image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y,
+        image_bank_background,
+        constants.SCREEN_GRID_X,
+        constants.SCREEN_GRID_Y,
     )
 
     # random tiles for the background woooo!!!
@@ -326,7 +328,7 @@ def game_scene():
             if garfields[garfield_number].x > 0:
                 garfields[garfield_number].move(
                     garfields[garfield_number].x,
-                    garfields[garfield_number].y - constants.GARFIELD_SPEED
+                    garfields[garfield_number].y - constants.GARFIELD_SPEED,
                 )
                 if garfields[garfield_number].y < constants.OFF_TOP_SCREEN:
                     garfields[garfield_number].move(
@@ -338,7 +340,7 @@ def game_scene():
             if lasagnas[lasagna_number].x > 0:
                 lasagnas[lasagna_number].move(
                     lasagnas[lasagna_number].x,
-                    lasagnas[lasagna_number].y + constants.LASAGNA_SPEED
+                    lasagnas[lasagna_number].y + constants.LASAGNA_SPEED,
                 )
                 if lasagnas[lasagna_number].y > constants.SCREEN_Y:
                     lasagnas[lasagna_number].move(
@@ -393,8 +395,10 @@ def game_scene():
                     lasagnas[lasagna_number].y + 2,
                     lasagnas[lasagna_number].x + 13,
                     lasagnas[lasagna_number].y + 12,
-                    jon.x, jon.y,
-                    jon.x + 15, jon.y + 15
+                    jon.x,
+                    jon.y,
+                    jon.x + 15,
+                    jon.y + 15,
                 ):
                     # jon has been hit :(
                     sound.stop()
