@@ -171,7 +171,7 @@ def game_scene():
                     random.randint(
                         0 + constants.SPRITE_SIZE,
                         constants.SCREEN_X - constants.SPRITE_SIZE,
-                    ), 
+                    ),
                     constants.OFF_TOP_SCREEN,
                 )
                 break
