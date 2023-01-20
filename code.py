@@ -13,6 +13,7 @@ import stage
 import supervisor
 import ugame
 
+
 # this is the splash scene
 def splash_scene():
 
@@ -35,7 +36,7 @@ def splash_scene():
     background = stage.Grid(
         image_bank_mt_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
-    # used this program to split the image into tile: 
+    # used this program to split the image into tile:
     # https://ezgif.com/sprite-cutter/ezgif-5-818cdbcc3f66.png
     background.tile(2, 2, 0)  # blank white
     background.tile(3, 2, 1)
@@ -96,7 +97,10 @@ def menu_scene():
     text1.move(20, 10)
 
     # this is what text will show up. hank anderson game studios :)
-    text1.text("Hank Anderson\nGame Studios:\n\nJon's Joyful\nJog!\npress A to shoot\nand L/R to move.")
+    text1.text(
+        "Hank Anderson\nGame Studios:\n\n"
+        "Jon's Joyful\nJog!\npress A to shoot\nand L/R to move."
+    )
 
     # adding to end of list.
     text.append(text1)
@@ -123,7 +127,7 @@ def menu_scene():
     background = stage.Grid(
         image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
     )
-    
+
     # actually displaying the game
     game = stage.Stage(ugame.display, constants.FPS)
 
@@ -163,7 +167,12 @@ def game_scene():
     def show_lasagna():
         for lasagna_number in range(len(lasagnas)):
             if lasagnas[lasagna_number].x < 0:
-                lasagnas[lasagna_number].move(random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_X - constants.SPRITE_SIZE), constants.OFF_TOP_SCREEN)
+                lasagnas[lasagna_number].move(
+                    random.randint(
+                        0 + constants.SPRITE_SIZE, constants.SCREEN_X - constants.SPRITE_SIZE
+                    ), 
+                    constants.OFF_TOP_SCREEN
+                )
                 break
 
     # the image bank for the background and sprites
@@ -192,7 +201,7 @@ def game_scene():
     # random tiles for the background woooo!!!
     for x_location in range(constants.SCREEN_GRID_X):
         for y_location in range(constants.SCREEN_GRID_Y):
-            tile_picked = random.randint(1,3)
+            tile_picked = random.randint(1, 3)
             background.tile(x_location, y_location, tile_picked)
 
     # this is the sprite of jon, who is the playable character
@@ -215,7 +224,7 @@ def game_scene():
         )
         # add the lasagna to the list of lasagna's
         lasagnas.append(a_single_lasagna)
-    
+
     # placing our lasagna at the top of the screen
     show_lasagna()
 
@@ -223,7 +232,8 @@ def game_scene():
     garfields = []
     for garfield_number in range(constants.TOTAL_NUMBER_OF_GARFIELD):
         a_single_garfield = stage.Sprite(
-            image_bank_sprites, 10,
+            image_bank_sprites,
+            10,
             constants.OFF_SCREEN_X,
             constants.OFF_SCREEN_Y,
         )
@@ -313,16 +323,26 @@ def game_scene():
         # move garfield for each frame he's on the screen
         for garfield_number in range(len(garfields)):
             if garfields[garfield_number].x > 0:
-                garfields[garfield_number].move(garfields[garfield_number].x, garfields[garfield_number].y - constants.GARFIELD_SPEED)
+                garfields[garfield_number].move(
+                    garfields[garfield_number].x,
+                    garfields[garfield_number].y - constants.GARFIELD_SPEED
+                )
                 if garfields[garfield_number].y < constants.OFF_TOP_SCREEN:
-                    garfields[garfield_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    garfields[garfield_number].move(
+                        constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+                    )
 
         # move the lasagna down the screen
         for lasagna_number in range(len(lasagnas)):
             if lasagnas[lasagna_number].x > 0:
-                lasagnas[lasagna_number].move(lasagnas[lasagna_number].x, lasagnas[lasagna_number].y + constants.LASAGNA_SPEED)
+                lasagnas[lasagna_number].move(
+                    lasagnas[lasagna_number].x,
+                    lasagnas[lasagna_number].y + constants.LASAGNA_SPEED
+                )
                 if lasagnas[lasagna_number].y > constants.SCREEN_Y:
-                    lasagnas[lasagna_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    lasagnas[lasagna_number].move(
+                        constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+                    )
                     show_lasagna()
                     score -= 1
                     if score < 0:
@@ -368,16 +388,18 @@ def game_scene():
         for lasagna_number in range(len(lasagnas)):
             if lasagnas[lasagna_number].x > 0:
                 if stage.collide(
-                        lasagnas[lasagna_number].x + 4, lasagnas[lasagna_number].y + 2,
-                        lasagnas[lasagna_number].x + 13, lasagnas[lasagna_number].y + 12,
+                        lasagnas[lasagna_number].x + 4,
+                        lasagnas[lasagna_number].y + 2,
+                        lasagnas[lasagna_number].x + 13,
+                        lasagnas[lasagna_number].y + 12,
                         jon.x, jon.y,
                         jon.x + 15, jon.y + 15
-                    ):
-                        # jon has been hit :(
-                        sound.stop()
-                        sound.play(screaming_sound)
-                        time.sleep(3.0)
-                        game_over_scene(score)
+                ):
+                    # jon has been hit :(
+                    sound.stop()
+                    sound.play(screaming_sound)
+                    time.sleep(3.0)
+                    game_over_scene(score)
 
         # redrawing / updating sprites
         game.render_sprites(garfields + [jon] + lasagnas)
@@ -391,21 +413,29 @@ def game_over_scene(final_score):
     image_bank_2 = stage.Bank.from_bmp16("space_aliens_background.bmp")
 
     # this will set the background to the game over background
-    background = stage.Grid(image_bank_2, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
+    background = stage.Grid(
+        image_bank_2, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+    )
 
     # text objects to tell the user they've died
     text = []
-    text1 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None)
+    text1 = stage.Text(
+        width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None
+    )
     text1.move(8, 20)
     text1.text("Your Final Score\nwas {:0>2d}".format(final_score))
     text.append(text1)
 
-    text2 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None)
+    text2 = stage.Text(
+        width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None
+    )
     text2.move(8, 60)
     text2.text("Game Over\n Thanks for playing!")
     text.append(text2)
 
-    text3 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None)
+    text3 = stage.Text(
+        width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None
+    )
     text3.move(8, 110)
     text3.text("Press Select. Do it.\nNow.")
     text.append(text3)
